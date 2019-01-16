@@ -1,0 +1,19 @@
+ansicolor:0.5.2
+blueocean:1.6.2
+docker-workflow:1.14 # 1.15 breaks for API builds JENKINS-49446
+kubernetes:1.14.3
+github-branch-source:2.3.6
+saml:1.1.2
+greenballs:1.15
+job-dsl:1.70
+parameterized-trigger:2.35.2
+pipeline-aws:1.27
+pipeline-maven:3.5.9
+pipeline-utility-steps:2.1.0
+prometheus:1.2.2
+slack:2.14
+timestamper:1.8.10
+workflow-aggregator:2.5
+configuration-as-code:1.4
+configuration-as-code-support:1.4
+badge:1.7

@@ -1,0 +1,11 @@
+version: '3'
+services:
+  jenkins:
+    build: .
+    image: emnify/jenkins-casc:latest
+    env_file:
+      - jenkins.env
+    volumes:
+      - ./config.yml:/var/jenkins_casc.yml
+    ports:
+      - "8080:8080"
