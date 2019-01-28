@@ -36,6 +36,7 @@ jenkins:
             idleMinutes: "1"
             activeDeadlineSeconds: "120"
             slaveConnectTimeout: "600"
+  # comment out the securityRealm and authorizationStrategy for local testing
   securityRealm:
     saml:
       idpMetadataConfiguration:

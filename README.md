@@ -3,6 +3,8 @@
 This Jenkins Master docker image ([`emnify/jenkins-casc`](https://hub.docker.com/r/emnify/jenkins-casc)) uses
 [Jenkins Configuration as Code](https://plugins.jenkins.io/configuration-as-code).
 
+For further information, consult the documentation of the [jenkinsci/jenkins container](https://github.com/jenkinsci/docker/blob/master/README.md)
+
 ## Adjusting Configuration
 
 Jenkins global configuration, as well as the seed job, are defined in `config.yml`
@@ -35,7 +37,13 @@ Caution: After the last plugin an empty line is needed, otherwise the last plugi
 
           docker-compose up
 
-For further information, consult the documentation of the [jenkinsci/jenkins container](https://github.com/jenkinsci/docker/blob/master/README.md)
+
+### Error SAXParseException
+
+The following error occurs, when SAML authentication was not disabled and the original value from `jenkins.env` is still used:
+
+> org.xml.sax.SAXParseException; lineNumber: 1; columnNumber: 1; Content is not allowed in prolog.
+
 
 ## Creating a new Container Version
 
