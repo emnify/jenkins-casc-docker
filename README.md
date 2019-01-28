@@ -1,23 +1,39 @@
-# Jenkins Master
+# Jenkins Master via Config as Code
 
-Automated build for a Jenkins image including plugins and seed job configured with casc.
-This project is inspired by Torben Knerr's [jenkins-pipes-infra](https://github.com/tknerr/jenkins-pipes-infra), which provides a more extensive documentation.
+This Jenkins Master docker image ([`emnify/jenkins-casc`](https://hub.docker.com/r/emnify/jenkins-casc)) uses
+[Jenkins Configuration as Code](https://plugins.jenkins.io/configuration-as-code).
 
-## Adding new jenkins plugins
+## Adjusting Configuration
+
+Jenkins global configuration, as well as the seed job, are defined in `config.yml`
+
+## Adding new Jenkins Plugins
 
 To add new plugins just add it to `plugins.txt`
 
 Caution: After the last plugin an empty line is needed, otherwise the last plugin will not be installed!
 
-## Running the Container
+## Running the Container Locally
 
-    #ensure jenkins.env exists
-    cp .env.template jenkins.env
-    #adjust jenkins.env according to your needs
-    #run with docker
-    docker run --name jenkins --rm -p 8080:8080 -v$(pwd)/config.yml:/var/jenkins_casc.yml  --env-file=jenkins.env emnify/jenkins:latest
-    #run with docker-compose
-    docker-compose up
+
+1. Environment variable configuration
+
+        cp .env.template jenkins.env
+        # adjust jenkins.env according to your needs
+
+1. Disable SAML authentication in `config.yml`:
+
+    - remove `jenkins.saml` and `jenkins.authorizationStrategy` sections
+
+1. Run container
+
+    - with docker
+      
+          docker run --name jenkins --rm -p 8080:8080 -v$(pwd)/config.yml:/var/jenkins_casc.yml  --env-file=jenkins.env emnify/jenkins-casc:latest
+
+    - with docker-compose
+
+          docker-compose up
 
 For further information, consult the documentation of the [jenkinsci/jenkins container](https://github.com/jenkinsci/docker/blob/master/README.md)
 
