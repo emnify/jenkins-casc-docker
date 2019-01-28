@@ -14,6 +14,7 @@ pipeline-maven:3.6.7
 pipeline-utility-steps:2.2.0
 prometheus:2.0.0
 saml:1.1.2
+ssh-agent:1.17
 slack:2.14
 timestamper:1.8.10
 workflow-aggregator:2.6
