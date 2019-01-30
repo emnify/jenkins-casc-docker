@@ -18,3 +18,4 @@ ssh-agent:1.17
 slack:2.14
 timestamper:1.8.10
 workflow-aggregator:2.6
+ansible:1.0
