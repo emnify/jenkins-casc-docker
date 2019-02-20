@@ -3,59 +3,17 @@ jenkins:
   crumbIssuer:
     standard:
       excludeClientIPFromCrumb: false
-  clouds:
-    - kubernetes:
-        name: "slave-config"
-        namespace: "default"
-        jenkinsUrl: "http://jenkins:8080/"
-        connectTimeout: 0
-        readTimeout: 0
-        containerCapStr: 5
-        maxRequestsPerHostStr: 64
-        podRetention: "never"
-        retentionTimeout: 5
-        templates:
-          - name: "k8s-slave"
-            namespace: "default"
-            label: "slave"
-            nodeUsageMode: EXCLUSIVE
-            containers:
-              - name: "jnlp"
-                image: "jenkinsci/jnlp-slave:latest"
-                alwaysPullImage: true
-                workingDir: "/home/jenkins"
-                ttyEnabled: true
-                resourceRequestCpu: "500m"
-                resourceLimitCpu: "1000m"
-                resourceRequestMemory: "1Gi"
-                resourceLimitMemory: "2Gi"
-            volumes:
-              - emptyDirVolume:
-                  memory: false
-                  mountPath: "/tmp"
-            idleMinutes: "1"
-            activeDeadlineSeconds: "120"
-            slaveConnectTimeout: "600"
-  # comment out the securityRealm and authorizationStrategy for local testing
-  securityRealm:
-    saml:
-      idpMetadataConfiguration:
-        xml: "${SAML_XML}"
-        url: "${SAML_URL}"
-        period: 60
-      maximumAuthenticationLifetime: 86400
-  authorizationStrategy:
-    loggedInUsersCanDoAnything:
-      allowAnonymousRead: false
 unclassified:
   location:
     url: "${JENKINS_HOST}"
   slackNotifier:
     baseUrl: "${SLACK_URL}"
-    token: "${SLACK_TOKEN}"
+    tokenCredentialId: "slack-token"
 security:
   remotingCLI:
     enabled: false
+  globalJobDslSecurityConfiguration:
+    useScriptSecurity: false
 credentials:
   system:
     domainCredentials:
@@ -66,74 +24,29 @@ credentials:
               username: "${GITHUB_USERNAME}"
               password: "${GITHUB_PASSWORD}"
               description: "GitHub Token"
-          - basicSSHUserPrivateKey:
-              scope: GLOBAL
-              id: "github-ssh"
-              username: "${GITHUB_SSH_USER}"
-              passphrase: ""
-              description: "SSH Key for GitHub user"
-              privateKeySource:
-                directEntry:
-                  privateKey: "${GITHUB_SSH_PRIVATE_KEY}"
           - string:
               scope: GLOBAL
               id: "slack-token"
               secret: "${SLACK_TOKEN}"
 jobs:
   - script: >
-      multibranchPipelineJob('seedjob') {
+      freeStyleJob('seedjob') {
           displayName('Seedjob')
           description('Create Jobs from this seedjob')
 
-          branchSources {
-              // the configuration for different build behaviors makes it a bit more complex
-              // (goal: automatically build master, but not other branches)
-              // this is not part of the JobDSL documentation, but part of the auto-generated DSL
-              // http://jenkins.dev.emnify.io/plugin/job-dsl/api-viewer/index.html#path/multibranchPipelineJob-branchSources-branchSource-strategy-defaultBranchPropertyStrategy-props-noTriggerBranchProperty
-              branchSource {
-                  source {
-                      github {
-                          id('new-seed')
-                          repoOwner('EMnify')
-                          repository('jenkins-jobs')
-                          credentialsId('github-token')
-                      }
-                  }
-                  strategy {
-                      namedExceptionsBranchPropertyStrategy {
-                          defaultProperties {
-                              noTriggerBranchProperty()
-                          }
-                      }
+          scm {
+              git {
+                  remote {
+                      github('${GITHUB_REPO_JOB_DSL}')
+                      credentials('github-token')
                   }
               }
           }
 
-          factory {
-              workflowBranchProjectFactory {
-                  scriptPath('seed_jobdsl.groovy')
-              }
-          }
-
-          configure {
-              // JENKINS-45860 JobDSL does not support `traits` used by the 2.2.0+ GitHub Branch Source plugin
-              // We need to configure this stuff by hand until JobDSL gets some support.
-              // Without this, Jenkins will just not discover any branches.
-              def traits = it / sources / data / 'jenkins.branch.BranchSource' / source / traits
-              traits << 'org.jenkinsci.plugins.github__branch__source.BranchDiscoveryTrait' {
-                  strategyId(3)
-              }
-              traits << 'org.jenkinsci.plugins.github__branch__source.OriginPullRequestDiscoveryTrait' {
-                  strategyId(1)
-              }
-              traits << 'jenkins.plugins.git.traits.CleanBeforeCheckoutTrait' {
-                  extension(class: 'hudson.plugins.git.extensions.impl.CleanBeforeCheckout')
-              }
-          }
-          // keep build jobs for deleted branches for a week
-          orphanedItemStrategy {
-              discardOldItems {
-                  daysToKeep(7)
+          steps {
+              dsl {
+                  removeAction('DISABLE')
+                  external('seed_jobdsl.groovy')
               }
           }
       }
