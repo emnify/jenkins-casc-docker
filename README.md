@@ -23,10 +23,6 @@ Caution: After the last plugin an empty line is needed, otherwise the last plugi
         cp .env.template jenkins.env
         # adjust jenkins.env according to your needs
 
-1. Disable SAML authentication in `config.yml`:
-
-    - remove `jenkins.saml` and `jenkins.authorizationStrategy` sections
-
 1. Run container
 
     - with docker
@@ -36,13 +32,6 @@ Caution: After the last plugin an empty line is needed, otherwise the last plugi
     - with docker-compose
 
           docker-compose up
-
-
-### Error SAXParseException
-
-The following error occurs, when SAML authentication was not disabled and the original value from `jenkins.env` is still used:
-
-> org.xml.sax.SAXParseException; lineNumber: 1; columnNumber: 1; Content is not allowed in prolog.
 
 
 ## Creating a new Container Version
