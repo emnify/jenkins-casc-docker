@@ -3,6 +3,8 @@ jenkins:
   crumbIssuer:
     standard:
       excludeClientIPFromCrumb: false
+  remotingSecurity:
+    enabled: false
 unclassified:
   location:
     url: "${JENKINS_HOST}"
@@ -10,8 +12,6 @@ unclassified:
     baseUrl: "${SLACK_URL}"
     tokenCredentialId: "slack-token"
 security:
-  remotingCLI:
-    enabled: false
   globalJobDslSecurityConfiguration:
     useScriptSecurity: false
 credentials:
