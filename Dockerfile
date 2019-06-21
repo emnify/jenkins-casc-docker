@@ -1,7 +1,7 @@
 FROM jenkins/jenkins:2.176.1
 
 # skip the setup wizard
-ENV JAVA_ARGS -Djenkins.install.runSetupWizard=false
+ENV JAVA_ARGS -Djenkins.install.runSetupWizard=false -Dpermissive-script-security.enabled=true
 
 # install plugins
 COPY plugins.txt /usr/share/jenkins/ref/plugins.txt
