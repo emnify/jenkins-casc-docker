@@ -1,7 +1,7 @@
 ansicolor:0.6.2
 badge:1.8
-blueocean:1.17.0
-configuration-as-code:1.21
+blueocean:1.18.1
+configuration-as-code:1.28
 docker-workflow:1.18
 github-branch-source:2.5.3
 greenballs:1.15
@@ -14,7 +14,7 @@ pipeline-utility-steps:2.3.0
 prometheus:2.0.0
 saml:1.1.2
 ssh-agent:1.17
-slack:2.27
+slack:2.32
 timestamper:1.9
 workflow-aggregator:2.6
 ansible:1.0
