@@ -16,15 +16,11 @@ pipeline {
       steps {
         container('kaniko') {
           sh 'echo \'{ "credsStore": "ecr-login" }\' > /kaniko/.docker/config.json'
-          build_and_push("`pwd`", "Dockerfile", "jenkins-casc", get_tag(), "eu-west-1")
+          build_and_push("`pwd`", "Dockerfile", "jenkins-casc", env.GIT_COMMIT.substring(0, 7), "eu-west-1")
         }
       }
     }
   }
-}
-
-def get_tag() {
-  return sh(returnStdout: true, script: "git log -n 1 --pretty=format:'%h'").trim()
 }
 
 def build_and_push(context, dockerfile, repo, tag, region) {
