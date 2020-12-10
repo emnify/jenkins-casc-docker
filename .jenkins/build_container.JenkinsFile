@@ -1,47 +1,30 @@
 #!/usr/bin/groovy
 def LABEL = "build-jenkins-casc-" + UUID.randomUUID().toString().take(8)
 pipeline {
-    parameters {
-        choice(name: 'TAG', choices: ['git-commit','git-tag'],  description: 'Which info to use in container tag?')
+  options {
+    timestamps()
+    ansiColor('xterm')
+  }
+  agent {
+    kubernetes {
+      label LABEL
+      yamlFile '.jenkins/pods/build_container.yaml'
     }
-    options {
-      timestamps()
-      ansiColor('xterm')
-    }
-    agent {
-      kubernetes {
-        label LABEL
-        yamlFile '.jenkins/pods/build_container.yaml'
-      }
-    }
-    stages {
-      stage('Container') {
-        steps {
-          if (params.TAG != '') {
-            script {
-                tag=get_tag()
-            }
-            container('kaniko') {
-                sh 'echo \'{ "credsStore": "ecr-login" }\' > /kaniko/.docker/config.json'
-                script {              
-                  build_and_push("`pwd`", "Dockerfile", "jenkins-casc", tag, "eu-west-1")
-                }
-            }
-          } else {
-            currentBuild.result = 'ABORTED'
-            error('unknown container tag')
-          }
+  }
+  stages {
+    stage('Container') {
+      steps {
+        container('kaniko') {
+          sh 'echo \'{ "credsStore": "ecr-login" }\' > /kaniko/.docker/config.json'
+          build_and_push("`pwd`", "Dockerfile", "jenkins-casc", get_tag(), "eu-west-1")
         }
       }
     }
+  }
 }
 
 def get_tag() {
-    if (params.TAG == 'git-commit') {
-      return sh(returnStdout: true, script: "git log -n 1 --pretty=format:'%h'").trim()
-    } else if (params.TAG == 'git-tag')  {
-      return sh(returnStdout: true, script: "git describe --tags --abbrev=0").trim()
-    }
+  return sh(returnStdout: true, script: "git log -n 1 --pretty=format:'%h'").trim()
 }
 
 def build_and_push(context, dockerfile, repo, tag, region) {
