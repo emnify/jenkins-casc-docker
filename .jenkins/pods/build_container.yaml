@@ -1,0 +1,10 @@
+metadata:
+  annotations:
+    iam.amazonaws.com/role: ecr-push-pull
+spec:
+  containers:
+    - name: kaniko
+      image: gcr.io/kaniko-project/executor:debug-v1.3.0
+      command:
+        - /busybox/cat
+      tty: true
