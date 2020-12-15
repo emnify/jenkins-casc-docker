@@ -14,13 +14,21 @@ pipeline {
   stages {
     stage('Container') {
       steps {
+        script {
+          version=getTag()
+        }
         container('kaniko') {
-          sh 'echo \'{ "credsStore": "ecr-login" }\' > /kaniko/.docker/config.json'
-          build_and_push("`pwd`", "Dockerfile", "jenkins-casc", env.GIT_COMMIT.substring(0, 7), "eu-west-1")
+          sh "echo ${version}"
+          // sh 'echo \'{ "credsStore": "ecr-login" }\' > /kaniko/.docker/config.json'
+          // build_and_push("`pwd`", "Dockerfile", "jenkins-casc", env.GIT_COMMIT.substring(0, 7), "eu-west-1")
         }
       }
     }
   }
+}
+
+def getTag() {
+    return sh(returnStdout: true, script: "git tag --points-at")
 }
 
 def build_and_push(context, dockerfile, repo, tag, region) {
