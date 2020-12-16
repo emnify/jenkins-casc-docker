@@ -36,8 +36,10 @@ Caution: After the last plugin an empty line is needed, otherwise the last plugi
 
 ## Creating a new Container Version
 
-To trigger a new build, create a tag (`<jenkinsVersion>-<iteration>`, e.g. `2.60.1-3` for our 3rd try with Jenkins 2.60.1).
-The automated build at Docker Hub will then automatically process this.
+This is hosted in ECR in EMnify shared account (648956897802.dkr.ecr.eu-west-1.amazonaws.com/jenkins-casc).
+
+To trigger a new build, go to [Jenkins pipeline](https://jenkins.oss-eks.dev.emnify.io/job/jenkins/job/container_build/) and execute the pipeline accordingly with the desired branch.
+It will build the container using the commit hash.
 
 ## Debugging Automated Plugin Updates
 
