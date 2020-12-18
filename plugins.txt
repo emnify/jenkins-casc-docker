@@ -6,7 +6,7 @@ docker-workflow:1.25
 github-branch-source:2.9.2
 greenballs:1.15.1
 job-dsl:1.77
-kubernetes:1.28.3
+kubernetes:1.25.7
 parameterized-trigger:2.39
 pipeline-aws:1.43
 pipeline-maven:3.9.3
