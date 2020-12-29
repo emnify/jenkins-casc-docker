@@ -38,7 +38,7 @@ Caution: After the last plugin an empty line is needed, otherwise the last plugi
 
 This is hosted in ECR in EMnify shared account (648956897802.dkr.ecr.eu-west-1.amazonaws.com/jenkins-casc).
 
-To trigger a new build, go to [Jenkins pipeline](https://jenkins.oss-eks.dev.emnify.io/job/jenkins/job/container_build/) and execute the pipeline accordingly with the desired branch.
+To trigger a new build, go to [Jenkins pipeline](https://jenkins.oss-eks.dev.emnify.io/job/oss/job/jenkins_build/) and execute the pipeline accordingly with the desired branch.
 It will build the container using the commit hash.
 
 ## Debugging Automated Plugin Updates
