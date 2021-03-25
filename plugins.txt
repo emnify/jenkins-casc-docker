@@ -11,6 +11,7 @@ kubernetes:1.29.2
 parameterized-trigger:2.40
 permissive-script-security:0.6
 pipeline-aws:1.43
+pipeline-github:2.7
 pipeline-maven:3.10.0
 pipeline-utility-steps:2.7.0
 prometheus:2.0.9
