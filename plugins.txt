@@ -8,16 +8,19 @@ github-branch-source:2.10.2
 greenballs:1.15.1
 job-dsl:1.77
 kubernetes:1.29.2
+material-theme:0.3.3
 parameterized-trigger:2.40
 permissive-script-security:0.6
 pipeline-aws:1.43
 pipeline-github:2.7
 pipeline-maven:3.10.0
-pipeline-utility-steps:2.7.0
+pipeline-utility-steps:2.7.1
 prometheus:2.0.9
 saml:2.0.2
+simple-theme-plugin:0.6
 slack:2.46
 ssh-agent:1.22
+theme-manager:0.6
 timestamper:1.12
 workflow-aggregator:2.6
 
