@@ -1,9 +1,6 @@
 ansible
 ansicolor
-badge
-blueocean
 configuration-as-code
-docker-workflow
 folder-properties
 github-branch-source
 greenballs
