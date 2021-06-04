@@ -3,7 +3,6 @@ ansicolor
 configuration-as-code
 folder-properties
 github-branch-source
-greenballs
 job-dsl
 kubernetes
 material-theme
