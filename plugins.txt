@@ -3,6 +3,7 @@ ansicolor
 configuration-as-code
 folder-properties
 github-branch-source
+github-pr-comment-build
 job-dsl
 kubernetes
 material-theme
@@ -20,4 +21,3 @@ ssh-agent
 theme-manager
 timestamper
 workflow-aggregator
-
