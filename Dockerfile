@@ -1,4 +1,4 @@
-FROM jenkins/jenkins:2.289.3
+FROM jenkins/jenkins:2.303.1
 
 # skip the setup wizard
 ENV JAVA_OPTS "-Djenkins.install.runSetupWizard=false"
