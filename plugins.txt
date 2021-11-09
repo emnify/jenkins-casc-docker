@@ -4,6 +4,7 @@ configuration-as-code
 folder-properties
 github-branch-source
 github-pr-comment-build
+jira
 job-dsl
 kubernetes
 material-theme
