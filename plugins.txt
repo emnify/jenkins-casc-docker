@@ -1,5 +1,6 @@
 ansible
 ansicolor
+atlassian-jira-software-cloud
 configuration-as-code
 folder-properties
 github-branch-source
@@ -21,3 +22,4 @@ ssh-agent
 theme-manager
 timestamper
 workflow-aggregator
+
